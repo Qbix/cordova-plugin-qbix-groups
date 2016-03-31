@@ -5,16 +5,18 @@
 
   <name>Groups.Cordova</name>
 
+
   <engines>
     <engine name="cordova" version=">=3.4.0"/>
   </engines>
 
-  <platform name="android">
+  <dependency id="cordova-plugin-media" version="~2.1" />\
 
-    <js-module src="www/qbix_groups_cordova.js" name="Groups.Cordova">
+  <js-module src="www/qbix_groups_cordova.js" name="Groups.Cordova">
       <clobbers target="Groups.Cordova" />
     </js-module>
 
+  <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="QbixGroupsCordova">
         <param name="android-package" value="com.q.streams.cordova.plugin.QbixGroupsCordova"/>
@@ -24,13 +26,7 @@
     <source-file src="src/android/QbixGroupsCordova.java" target-dir="src/com/q/streams/cordova/plugin/"/>
   </platform>
 
-  <platform name="ios">
-    <asset src="www/qbix_groups_cordova.js" target="plugins/com.qbix.groups.cordova/www/qbix_groups_cordova.js"/>
-    
-    <js-module src="www/ios/qbix_groups_cordova.js" name="Groups.Cordova">
-      <clobbers target="Groups.Cordova" />
-    </js-module>
-    
+  <platform name="ios">  
     <config-file target="config.xml" parent="/widget">
       <feature name="QbixGroupsCordova">
         <param name="ios-package" value="QbixGroupsCordova" />
