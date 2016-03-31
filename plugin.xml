@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        id="com.qbix.groups.cordova"
+        version="0.0.1">
+
+  <name>Groups.Cordova</name>
+
+  <engines>
+    <engine name="cordova" version=">=3.4.0"/>
+  </engines>
+
+  <asset src="www/qbix_groups_cordova.js" target="js/qbix_groups_cordova.js"/>
+
+  <js-module src="www/qbix_groups_cordova.js" name="Groups.Cordova">
+    <clobbers target="Groups.Cordova" />
+  </js-module>
+
+  <platform name="android">
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="QbixGroupsCordova">
+        <param name="android-package" value="com.q.streams.cordova.plugin.QbixGroupsCordova"/>
+      </feature>
+    </config-file>
+
+    <source-file src="src/android/QbixGroupsCordova.java" target-dir="src/com/q/streams/cordova/plugin/"/>
+  </platform>
+
+  <platform name="ios">
+    
+    <config-file target="config.xml" parent="/widget">
+      <feature name="QbixGroupsCordova">
+        <param name="ios-package" value="QbixGroupsCordova" />
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/QbixGroupsCordova.h" target-dir="QbixGroupsCordovaPlugin"/>
+    <source-file src="src/ios/QbixGroupsCordova.m" target-dir="QbixGroupsCordovaPlugin"/>
+
+  </platform>
+
+</plugin>
