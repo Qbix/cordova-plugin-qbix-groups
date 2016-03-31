@@ -1,4 +1,4 @@
-package com.q.users.cordova.plugin;
+package com.qbix.groups.cordova.plugin;
 
 import org.apache.cordova.*;
 import org.json.JSONArray;
