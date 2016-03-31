@@ -9,13 +9,11 @@
     <engine name="cordova" version=">=3.4.0"/>
   </engines>
 
-  <js-module src="www/qbix_groups_cordova.js" name="Groups.Cordova">
-    <clobbers target="Groups.Cordova" />
-  </js-module>
-
-  <asset src="www/qbix_groups_cordova.js" target="js/qbix_groups_cordova.js"/>
-
   <platform name="android">
+
+    <js-module src="www/qbix_groups_cordova.js" name="Groups.Cordova">
+      <clobbers target="Groups.Cordova" />
+    </js-module>
 
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="QbixGroupsCordova">
@@ -27,7 +25,8 @@
   </platform>
 
   <platform name="ios">
-
+    <asset src="www/qbix_groups_cordova.js" target="plugins/com.qbix.groups.cordova/www/qbix_groups_cordova.js"/>
+    
     <js-module src="www/ios/qbix_groups_cordova.js" name="Groups.Cordova">
       <clobbers target="Groups.Cordova" />
     </js-module>
