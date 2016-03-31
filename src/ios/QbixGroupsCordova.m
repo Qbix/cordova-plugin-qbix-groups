@@ -1,4 +1,4 @@
-#import "QUsersCordova.h"
+#import "QbixGroupsCordova.h"
 
 @implementation QbixGroupsCordova
 
