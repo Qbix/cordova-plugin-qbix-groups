@@ -1,6 +1,6 @@
 #import <Cordova/CDV.h>
 
-@interface QStreamsCordova : CDVPlugin
+@interface QbixGroupsCordova : CDVPlugin
 
 - (void) hello:(CDVInvokedUrlCommand*)command;
 

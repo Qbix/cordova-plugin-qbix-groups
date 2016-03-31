@@ -4,7 +4,7 @@ import org.apache.cordova.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class QStreamsCordova extends CordovaPlugin {
+public class QbixGroupsCordova extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
