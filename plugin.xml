@@ -13,10 +13,29 @@
   <dependency id="cordova-plugin-media" version="~2.1" />\
 
   <js-module src="www/qbix_groups_cordova.js" name="Groups.Cordova">
-      <clobbers target="Groups.Cordova" />
-    </js-module>
+    <clobbers target="Groups.Cordova" />
+  </js-module>
 
-  <platform name="android">
+  <js-module src="www/ActionItem.js" name="Groups.Cordova.ActionItem">
+    <clobbers target="Groups.Cordova.ActionItem" />
+  </js-module>
+
+  <js-module src="www/GroupsError.js" name="Groups.Cordova.GroupsError">
+    <clobbers target="Groups.Cordova.GroupsError" />
+  </js-module>
+
+  <js-module src="www/GroupsSections.js" name="Groups.Cordova.GroupsSections">
+    <clobbers target="Groups.Cordova.GroupsSections" />
+  </js-module>
+
+  <js-module src="www/GroupsUtils.js" name="Groups.Cordova.GroupsUtils">
+    <clobbers target="Groups.Cordova.GroupsUtils" />
+  </js-module>
+
+  <js-module src="www/SectionItem.js" name="Groups.Cordova.SectionItem">
+    <clobbers target="Groups.Cordova.SectionItem" />
+  </js-module>
+  <!-- <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="QbixGroupsCordova">
         <param name="android-package" value="com.q.streams.cordova.plugin.QbixGroupsCordova"/>
@@ -25,7 +44,7 @@
 
     <source-file src="src/android/QbixGroupsCordova.java" target-dir="src/com/q/streams/cordova/plugin/"/>
   </platform>
-
+ -->
   <platform name="ios">  
     <config-file target="config.xml" parent="/widget">
       <feature name="QbixGroupsCordova">
