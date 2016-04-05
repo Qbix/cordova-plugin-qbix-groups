@@ -5,4 +5,4 @@ var GROUPS_SECTIONS = {
 	REMINDERS:"reminders"
 }
 
-module.exports.GroupsSections = GROUPS_SECTIONS;
+module.exports = GROUPS_SECTIONS;

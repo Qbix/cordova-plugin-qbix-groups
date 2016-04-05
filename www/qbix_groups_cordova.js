@@ -1,12 +1,13 @@
-var GroupsSections = require("./GroupsSections"),
-	GroupsError = require("./GroupsError"),
-	GroupsUtils = require("./GroupsUtils"),
-	SECTION_ITEM = require("./SectionItem"),
-	ACTION_ITEM = require("./ActionItem")
+var GroupsSections = require("./Cordova.GroupsSections"),
+	GroupsError = require("./Cordova.GroupsError"),
+	GroupsUtils = require("./Cordova.GroupsUtils"),
+	Utils = require("./Cordova.GroupsUtils"),
+	SECTION_ITEM = require("./Cordova.SectionItem"),
+	ACTION_ITEM = require("./Cordova.ActionItem")
 
 
 var Main = {
-    convertGroupsBinFileToJson = function(onSuccess, onError) {
+    convertGroupsBinFileToJson: function(onSuccess, onError) {
 		exec(onSuccess,onError,'QbixGroupsCordova','convertGroupsBinFileToJson', []);
 	},
 	setList: function(listInfo, after, onSuccess, onError) {
