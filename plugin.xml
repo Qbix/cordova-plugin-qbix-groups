@@ -24,10 +24,6 @@
     <clobbers target="Groups.Cordova.GroupsError" />
   </js-module>
 
-  <js-module src="www/GroupsSections.js" name="Groups.Cordova.GroupsSections">
-    <clobbers target="Groups.Cordova.GroupsSections" />
-  </js-module>
-
   <js-module src="www/GroupsUtils.js" name="Groups.Cordova.GroupsUtils">
     <clobbers target="Groups.Cordova.GroupsUtils" />
   </js-module>
