@@ -13,23 +13,23 @@
   <!-- <dependency id="cordova-plugin-media" version="~2.1" /> -->
 
   <js-module src="www/qbix_groups_cordova.js" name="Groups.Cordova">
-    <clobbers target="Groups.Cordova" />
+    <clobbers target="QGroups.Cordova" />
   </js-module>
 
   <js-module src="www/ActionItem.js" name="Groups.Cordova.ActionItem">
-    <clobbers target="Groups.Cordova.ActionItem" />
+    <clobbers target="QGroups.Cordova.ActionItem" />
   </js-module>
 
   <js-module src="www/GroupsError.js" name="Groups.Cordova.GroupsError">
-    <clobbers target="Groups.Cordova.GroupsError" />
+    <clobbers target="QGroups.Cordova.GroupsError" />
   </js-module>
 
   <js-module src="www/GroupsUtils.js" name="Groups.Cordova.GroupsUtils">
-    <clobbers target="Groups.Cordova.GroupsUtils" />
+    <clobbers target="QGroups.Cordova.GroupsUtils" />
   </js-module>
 
   <js-module src="www/SectionItem.js" name="Groups.Cordova.SectionItem">
-    <clobbers target="Groups.Cordova.SectionItem" />
+    <clobbers target="QGroups.Cordova.SectionItem" />
   </js-module>
   <!-- <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
