@@ -33,32 +33,32 @@ var Main = {
 
 		cordova.exec(onSuccess, onError, BRIDGE_NAME, "setActions", [listActions]);
 	},
-	cordovaShowFullscreen: function (onSuccess, onError) {
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "cordovaShowFullscreen", []);
+	showFullscreen: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "showFullscreen", []);
     },
-    cordovaHideFullscreen: function (height, onSuccess, onError) {
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "cordovaHideFullscreen", [height]);
+    hideFullscreen: function (height, onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "hideFullscreen", [height]);
     },
-    cordovaShowOptions: function (onSuccess, onError) {
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "cordovaShowOptions", []);
+    showOptions: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "showOptions", []);
     },
-    cordovaShowEnhance: function (onSuccess, onError) {
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "cordovaShowEnhance", []);
+    showEnhance: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "showEnhance", []);
     },
-    cordovaShowSupport: function (onSuccess, onError) {
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "cordovaShowSupport", []);
+    showSupport: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "showSupport", []);
     },
-    cordovaShowEdit: function (onSuccess, onError) {
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "cordovaShowEdit", []);
+    showEdit: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "showEdit", []);
     },
-    cordovaDeleteStickyAds: function (onSuccess, onError) {
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "cordovaDeleteStickyAds", []);
+    deleteStickyAds: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "deleteStickyAds", []);
     },
     // cordovaRevertWebMode: function () {
     //     cordova.exec(function(msg){}, function(err){}, "QGroupsCordova", "cordovaRevertWebMode", []);
     // },
-    cordovaCloseModalWebView: function (onSuccess, onError) {
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "cordovaСloseModalWebView", []);
+    closeModalWebView: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "closeModalWebView", []);
     }
 }
 
