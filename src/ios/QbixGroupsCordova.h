@@ -7,14 +7,14 @@
 - (void) setList:(CDVInvokedUrlCommand*)command;
 - (void) setActions:(CDVInvokedUrlCommand*)command;
 
-- (void)cordovaHideFullscreen:(CDVInvokedUrlCommand*)command;
-- (void)cordovaShowFullscreen:(CDVInvokedUrlCommand*)command;
-- (void)cordovaShowOptions:(CDVInvokedUrlCommand*)command;
-- (void)cordovaShowEnhance:(CDVInvokedUrlCommand*)command;
-- (void)cordovaShowSupport:(CDVInvokedUrlCommand*)command;
-- (void)cordovaShowEdit:(CDVInvokedUrlCommand*)command;
-- (void)cordovaDeleteStickyAds:(CDVInvokedUrlCommand *)command;
+- (void)hideFullscreen:(CDVInvokedUrlCommand*)command;
+- (void)showFullscreen:(CDVInvokedUrlCommand*)command;
+- (void)showOptions:(CDVInvokedUrlCommand*)command;
+- (void)showEnhance:(CDVInvokedUrlCommand*)command;
+- (void)showSupport:(CDVInvokedUrlCommand*)command;
+- (void)showEdit:(CDVInvokedUrlCommand*)command;
+- (void)deleteStickyAds:(CDVInvokedUrlCommand *)command;
 //- (void)cordovaRevertWebMode:(CDVInvokedUrlCommand *)command;
-- (void)cordovaСloseModalWebView:(CDVInvokedUrlCommand *)command;
+- (void)closeModalWebView:(CDVInvokedUrlCommand *)command;
 
 @end

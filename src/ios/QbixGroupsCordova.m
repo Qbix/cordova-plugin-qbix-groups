@@ -48,7 +48,7 @@
 	[self sendSuccessWithCallbackId:command.callbackId];	
 }
 
-- (void)cordovaHideFullscreen:(CDVInvokedUrlCommand*)command
+- (void)hideFullscreen:(CDVInvokedUrlCommand*)command
 {
     NSString *height = @"62";
     @try {
@@ -62,42 +62,42 @@
     [self sendSuccessWithCallbackId:command.callbackId];
 }
 
-- (void)cordovaShowFullscreen:(CDVInvokedUrlCommand*)command
+- (void)showFullscreen:(CDVInvokedUrlCommand*)command
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"cordovaShowFullscreen" object:nil];
 
     [self sendSuccessWithCallbackId:command.callbackId];  
 }
 
-- (void)cordovaShowOptions:(CDVInvokedUrlCommand*)command
+- (void)showOptions:(CDVInvokedUrlCommand*)command
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"cordovaShowOptions" object:nil];
 
     [self sendSuccessWithCallbackId:command.callbackId];  
 }
 
-- (void)cordovaShowEnhance:(CDVInvokedUrlCommand*)command
+- (void)showEnhance:(CDVInvokedUrlCommand*)command
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"cordovaShowEnhance" object:nil];
 
     [self sendSuccessWithCallbackId:command.callbackId];  
 }
 
-- (void)cordovaShowSupport:(CDVInvokedUrlCommand*)command
+- (void)showSupport:(CDVInvokedUrlCommand*)command
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"cordovaShowSupport" object:nil];
 
     [self sendSuccessWithCallbackId:command.callbackId];  
 }
 
-- (void)cordovaShowEdit:(CDVInvokedUrlCommand*)command
+- (void)showEdit:(CDVInvokedUrlCommand*)command
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"cordovaShowEdit" object:nil];
 
     [self sendSuccessWithCallbackId:command.callbackId];  
 }
 
--(void)cordovaDeleteStickyAds:(CDVInvokedUrlCommand *)command
+-(void)deleteStickyAds:(CDVInvokedUrlCommand *)command
 {
     NSDictionary* dict = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:YES] forKey:@"removeAdsData"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"cordovaDeleteStickyAds" object:dict];
@@ -116,7 +116,7 @@
 //    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 //}
 
--(void) cordovaСloseModalWebView:(CDVInvokedUrlCommand *)command {
+-(void) closeModalWebView:(CDVInvokedUrlCommand *)command {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"cordovaCloseModalWebView" object:nil];
     
     [self sendSuccessWithCallbackId:command.callbackId];  
