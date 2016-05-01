@@ -11,18 +11,30 @@ var Main = {
  //    convertGroupsBinFileToJson: function(onSuccess, onError) {
 	// 	exec(onSuccess,onError,'QbixGroupsCordova','convertGroupsBinFileToJson', []);
 	// },
-	setList: function(title, listInfo, after, onSuccess, onError) {
-		if(!Utils.hasValue(SECTION_ITEM.GROUPS_SECTIONS, after))
-			return onError(GroupsError.NOT_EXIST_SECTION);
-
-		if(listInfo == undefined || !(listInfo instanceof Array))
-			return onError(GroupsError.LIST_NOT_ARRAY)
-
-		
-		if(!GroupsUtils.isValidObjectsInArray(listInfo, SECTION_ITEM))
-			return onError(GroupsError.PROVIDE_DATA_ISNT_SECTION_ITEM)
-
-		cordova.exec(onSuccess, onError, BRIDGE_NAME, "setList", [listInfo, after, title]);
+	setList: function(sectionsList, onSuccess, onError) {
+	   var finishedList = [];
+       if(sectionsList != undefined && sectionsList instanceof Array) {
+           for(var i=0; i < sectionsList.length; i++) {
+               var title = sectionsList[i].title;
+               var items = sectionsList[i].items;
+               var after = sectionsList[i].after;
+       
+               if(!Utils.hasValue(SECTION_ITEM.GROUPS_SECTIONS, after))
+               return onError(GroupsError.NOT_EXIST_SECTION);
+               
+               if(items == undefined || !(items instanceof Array))
+               return onError(GroupsError.LIST_NOT_ARRAY)
+               
+               
+               if(!GroupsUtils.isValidObjectsInArray(items, SECTION_ITEM))
+               return onError(GroupsError.PROVIDE_DATA_ISNT_SECTION_ITEM)
+       
+               finishedList.push(sectionsList[i]);
+           }
+       
+       }
+    
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "setList", [finishedList]);
 	},
 	setActions: function(listActions, onSuccess, onError) {
 		if(listActions == undefined || !(listActions instanceof Array))

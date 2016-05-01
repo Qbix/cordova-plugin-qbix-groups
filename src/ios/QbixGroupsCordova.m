@@ -26,16 +26,12 @@
 
 - (void) setList:(CDVInvokedUrlCommand*)command {
 	NSArray* sectionItems = [[command arguments] objectAtIndex:0];
-	NSString* after = [[command arguments] objectAtIndex:1];
-	NSString* title = [[command arguments] objectAtIndex:2];
 
-	NSDictionary* dict = [[NSDictionary alloc] init];
-  [dict setValue:title forKey:@"title"];
-  [dict setValue:after forKey:@"after"];
-  [dict setValue:sectionItems forKey:@"items"];
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"cordovaSetList" object:nil userInfo:dict];
-	[self sendSuccessWithCallbackId:command.callbackId];
+  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+   [dict setValue:sectionItems forKey:@"sections"];
+    
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"cordovaSetList" object:nil userInfo:dict];
+  [self sendSuccessWithCallbackId:command.callbackId];
 }
 
 - (void) setActions:(CDVInvokedUrlCommand*)command {
