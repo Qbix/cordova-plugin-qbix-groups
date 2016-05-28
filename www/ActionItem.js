@@ -5,13 +5,18 @@ var GROUPS_ACTIONS = {
 	COPY_CONTACTS:3,
 	REMIND_ME_LATER:4,
 	DELETE_CONTACTS:5,
-	EMAIL_CONTACTS_IMPORT:6
+	EMAIL_CONTACTS_IMPORT:6,
+    CUSTOM_ACTION = 7,
+    DUPLICATE_CONTACTS = 8,
+    GROUPS_CONTACTS = 9
 }
 
-var ActionItem = function(title, icon, action) {
+var ActionItem = function(title, icon, action, isNew, url) {
 	this.title = title;
 	this.icon = icon;
 	this.action = action;
+	this.isNew = isNew;
+	this.url = url;
 }
 
 module.exports = ActionItem;
