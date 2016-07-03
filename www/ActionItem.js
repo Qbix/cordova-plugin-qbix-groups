@@ -8,7 +8,8 @@ var GROUPS_ACTIONS = {
 	EMAIL_CONTACTS_IMPORT:6,
     CUSTOM_ACTION = 7,
     DUPLICATE_CONTACTS = 8,
-    GROUPS_CONTACTS = 9
+    GROUPS_CONTACTS = 9,
+    DELETE_CONTACTS_FROM_GROUP = 10
 }
 
 var ActionItem = function(title, icon, action, isNew, url) {
