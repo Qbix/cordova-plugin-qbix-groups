@@ -71,7 +71,8 @@ var Main = {
     // },
     closeModalWebView: function (onSuccess, onError) {
         cordova.exec(onSuccess, onError, BRIDGE_NAME, "closeModalWebView", []);
-    }
+    },
+    
 }
 
 
