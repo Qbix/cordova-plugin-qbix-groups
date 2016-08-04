@@ -41,7 +41,7 @@
     <source-file src="src/android/QbixGroupsCordova.java" target-dir="src/com/q/streams/cordova/plugin/"/>
   </platform>
  -->
-  <platform name="ios">  
+  <platform name="ios">
     <config-file target="config.xml" parent="/widget">
       <feature name="QbixGroupsCordova">
         <param name="ios-package" value="QbixGroupsCordova" />
@@ -50,6 +50,7 @@
 
     <header-file src="src/ios/QbixGroupsCordova.h" target-dir="QbixGroupsCordovaPlugin"/>
     <source-file src="src/ios/QbixGroupsCordova.m" target-dir="QbixGroupsCordovaPlugin"/>
+    <header-file src="src/ios/QbixGroupsCordovaDelegate.h" target-dir="QbixGroupsCordovaPlugin"/>
 
   </platform>
 

@@ -1,6 +1,9 @@
 #import "QbixGroupsCordova.h"
 
-@implementation QbixGroupsCordova
+@implementation QbixGroupsCordova {
+    NSString *smsCallbackId;
+    NSString *emailCallbackId;
+}
 
 - (void)hello:(CDVInvokedUrlCommand*)command
 {
@@ -22,6 +25,85 @@
                                messageAsString:@""];
 
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+}
+
+-(void) sendError:(NSString*) error withCallbackId:(NSString*)callbackId {
+    CDVPluginResult* result = [CDVPluginResult
+                               resultWithStatus:CDVCommandStatus_ERROR
+                               messageAsString:@""];
+    
+    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+}
+
+-(void) didError:(NSString*) error withType:(ActionOperation) type {
+    switch (type) {
+        case SMSOperation:
+            if(smsCallbackId != nil) {
+                [self sendError:error withCallbackId:smsCallbackId];
+            }
+            break;
+        case EMAILOperation:
+            if(emailCallbackId != nil) {
+                [self sendError:error withCallbackId:smsCallbackId];
+            }
+            break;
+        default:
+            break;
+    }
+}
+-(void) didFinishSuccessWithType:(ActionOperation) type {
+    switch (type) {
+        case SMSOperation:
+            if(smsCallbackId != nil) {
+                [self sendSuccessWithCallbackId:smsCallbackId];
+            }
+            break;
+        case EMAILOperation:
+            if(emailCallbackId != nil) {
+                [self sendSuccessWithCallbackId:emailCallbackId];
+            }
+            break;
+        default:
+            break;
+    }
+    
+}
+
+- (void) sendSms:(CDVInvokedUrlCommand*)command {
+    smsCallbackId = [command.callbackId copy];
+    NSArray* recipients = [[command arguments] objectAtIndex:0];
+    NSString* body = [[command arguments] objectAtIndex:1];
+    //NSInteger batch = [[[command arguments] objectAtIndex:2] integerValue];
+    
+    SmsOperationController *smsOperationController = [[SmsOperationController alloc] init];
+    if(![smsOperationController isAvailable]) {
+        [self sendError:@"Device not configured to sent sms" withCallbackId:command.callbackId];
+        return;
+    }
+    [smsOperationController setDelegateCordova:self];
+    [smsOperationController setRecipients:recipients];
+    [smsOperationController setText:body];
+    [smsOperationController setBatch:[recipients count]];
+    [smsOperationController setIsDirect:YES];
+    [smsOperationController showComposeSmsController];
+}
+
+- (void) sendEmail:(CDVInvokedUrlCommand*)command {
+    emailCallbackId = [command.callbackId copy];
+    NSArray* recipients = [[command arguments] objectAtIndex:0];
+    NSString* subject = [[command arguments] objectAtIndex:1];
+    NSString* body = [[command arguments] objectAtIndex:2];
+    
+    EmailOperationController *emailOperationController = [[EmailOperationController alloc] init];
+    if(![emailOperationController isAvailable]) {
+        [self sendError:@"Device not configured to sent mail" withCallbackId:command.callbackId];
+        return;
+    }
+    [emailOperationController setDelegateCordova:self];
+    [emailOperationController setRecipients:recipients];
+    [emailOperationController setSubject:subject];
+    [emailOperationController setText:body];
+    [emailOperationController showComposeEmail];
 }
 
 - (void) setList:(CDVInvokedUrlCommand*)command {

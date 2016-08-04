@@ -1,6 +1,10 @@
 #import <Cordova/CDV.h>
 
-@interface QbixGroupsCordova : CDVPlugin
+#import "QbixGroupsCordovaDelegate.h"
+#import "EmailOperationController.h"
+#import "SmsOperationController.h"
+
+@interface QbixGroupsCordova : CDVPlugin<QbixGroupsCordovaDelegate>
 
 - (void) hello:(CDVInvokedUrlCommand*)command;
 
@@ -16,5 +20,7 @@
 - (void)deleteStickyAds:(CDVInvokedUrlCommand *)command;
 //- (void)cordovaRevertWebMode:(CDVInvokedUrlCommand *)command;
 - (void)closeModalWebView:(CDVInvokedUrlCommand *)command;
+-(void) didFinishWithResult:(BOOL) isSuccess;
+-(void) showError:(NSString*) error;
 
 @end

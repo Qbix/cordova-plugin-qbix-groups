@@ -11,6 +11,13 @@ var Main = {
  //    convertGroupsBinFileToJson: function(onSuccess, onError) {
 	// 	exec(onSuccess,onError,'QbixGroupsCordova','convertGroupsBinFileToJson', []);
 	// },
+	sendSms: function(recipients, text, batch, onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "sendSms", [recipients, text]);
+    },
+    sendEmail: function(recipients, subject, text, onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "sendEmail", [recipients, subject, text]);
+    },
+
 	setList: function(title, listInfo, after, onSuccess, onError) {
 		if(!Utils.hasValue(SECTION_ITEM.GROUPS_SECTIONS, after))
 			return onError(GroupsError.NOT_EXIST_SECTION);
@@ -18,7 +25,7 @@ var Main = {
 		if(listInfo == undefined || !(listInfo instanceof Array))
 			return onError(GroupsError.LIST_NOT_ARRAY)
 
-		
+
 		if(!GroupsUtils.isValidObjectsInArray(listInfo, SECTION_ITEM))
 			return onError(GroupsError.PROVIDE_DATA_ISNT_SECTION_ITEM)
 
@@ -70,4 +77,3 @@ module.exports = Main;
 //         cordova.exec(successCallback, errorCallback, "QbixGroupsCordova", "hello", [name]);
 //     }
 // };
-
