@@ -44,7 +44,7 @@
             break;
         case EMAILOperation:
             if(emailCallbackId != nil) {
-                [self sendError:error withCallbackId:smsCallbackId];
+                [self sendError:error withCallbackId:emailCallbackId];
             }
             break;
         default:
