@@ -18,6 +18,9 @@ var Main = {
         cordova.exec(onSuccess, onError, BRIDGE_NAME, "sendEmail", [recipients, subject, text]);
     },
 
+    getEmailInfo: function(cuid, onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "getEmailInfo", [cuid]);
+    },
 	setList: function(title, listInfo, after, onSuccess, onError) {
 		if(!Utils.hasValue(SECTION_ITEM.GROUPS_SECTIONS, after))
 			return onError(GroupsError.NOT_EXIST_SECTION);

@@ -22,5 +22,6 @@
 - (void)closeModalWebView:(CDVInvokedUrlCommand *)command;
 -(void) didFinishWithResult:(BOOL) isSuccess;
 -(void) showError:(NSString*) error;
+- (void) getEmailInfo:(CDVInvokedUrlCommand *)command;
 
 @end

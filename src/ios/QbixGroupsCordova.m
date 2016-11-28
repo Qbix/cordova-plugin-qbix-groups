@@ -19,6 +19,21 @@
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
 }
 
+
+- (void)getEmailInfo:(CDVInvokedUrlCommand*)command
+{
+
+    NSString* callbackId = [command callbackId];
+    NSArray* name = [[command arguments] objectAtIndex:0];
+
+
+    CDVPluginResult* result = [CDVPluginResult
+                               resultWithStatus:CDVCommandStatus_OK
+                               messageAsString:msg];
+
+    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+}
+
 -(void) sendSuccessWithCallbackId:(NSString*) callbackId {
     CDVPluginResult* result = [CDVPluginResult
                                resultWithStatus:CDVCommandStatus_OK
