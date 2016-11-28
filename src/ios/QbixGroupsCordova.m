@@ -1,4 +1,5 @@
 #import "QbixGroupsCordova.h"
+#import "TrackingEmailStorage.h"
 
 @implementation QbixGroupsCordova {
     NSString *smsCallbackId;
@@ -22,14 +23,28 @@
 
 - (void)getEmailInfo:(CDVInvokedUrlCommand*)command
 {
-
     NSString* callbackId = [command callbackId];
-    NSArray* name = [[command arguments] objectAtIndex:0];
-
-
-    CDVPluginResult* result = [CDVPluginResult
-                               resultWithStatus:CDVCommandStatus_OK
-                               messageAsString:msg];
+    NSArray* cuids = [[command arguments] objectAtIndex:0];
+    
+    CDVPluginResult* result = nil;
+    if(cuids != nil) {
+        TrackingEmailStorage *trackingEmailStorage = [[TrackingEmailStorage alloc] init];
+        NSArray* trackingEmailsDTOs = [trackingEmailStorage getTrackingEmailDTOs];
+        NSMutableArray* trackingEmailsDTOsFiltered = [NSMutableArray array];
+        for(int i=0; i < [cuids count]; i++) {
+            for(int j=0; j < [trackingEmailsDTOs count]; j++) {
+                TrackingEmailDTO *trackingEmailDTO = [trackingEmailsDTOs objectAtIndex:j];
+                if([[trackingEmailDTO cuid] isEqualToString:[cuids objectAtIndex:i]])
+                    [trackingEmailsDTOsFiltered addObject:trackingEmailDTO];
+            }
+        }
+        
+        result = [CDVPluginResult
+                  resultWithStatus:CDVCommandStatus_OK
+                  messageAsArray:[JSONModel arrayOfDictionariesFromModels:trackingEmailsDTOsFiltered]];
+    } else {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Please provide array of cuids"];
+    }
 
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
 }
