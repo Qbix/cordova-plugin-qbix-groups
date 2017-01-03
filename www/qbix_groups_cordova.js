@@ -11,8 +11,8 @@ var Main = {
  //    convertGroupsBinFileToJson: function(onSuccess, onError) {
 	// 	exec(onSuccess,onError,'QbixGroupsCordova','convertGroupsBinFileToJson', []);
 	// },
-	sendSms: function(recipients, text, onSuccess, onError) {
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "sendSms", [recipients, text]);
+	sendSms: function(recipients, text, imageUrl, onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "sendSms", [recipients, text, imageUrl]);
     },
     sendEmail: function(recipients, subject, text, onSuccess, onError) {
         cordova.exec(onSuccess, onError, BRIDGE_NAME, "sendEmail", [recipients, subject, text]);

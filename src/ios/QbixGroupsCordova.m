@@ -103,7 +103,7 @@
     smsCallbackId = [command.callbackId copy];
     NSArray* recipients = [[command arguments] objectAtIndex:0];
     NSString* body = [[command arguments] objectAtIndex:1];
-    //NSInteger batch = [[[command arguments] objectAtIndex:2] integerValue];
+    NSString* imageUrl = [[command arguments] objectAtIndex:2];
 
     SmsOperationController *smsOperationController = [[SmsOperationController alloc] init];
     if(![smsOperationController isAvailable]) {
@@ -113,6 +113,7 @@
     [smsOperationController setDelegateCordova:self];
     [smsOperationController setRecipientsAsPhoneArray:recipients];
     [smsOperationController setText:body];
+    [smsOperationController setImageUrl:imageUrl];
     [smsOperationController setBatch:[recipients count]];
     [smsOperationController setIsDirect:YES];
     [smsOperationController showComposeSmsController];
