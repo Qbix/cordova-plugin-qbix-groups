@@ -1,6 +1,10 @@
 #import "QbixGroupsCordova.h"
 #import "TrackingEmailStorage.h"
 
+#define APP_LANGUAGE @"currentAppLanguage"
+#define SYSTEM_LANGUAGE @"currentSystemLanguage"
+#define TEMPLATE_DATA @"templateData"
+
 @implementation QbixGroupsCordova {
     NSString *smsCallbackId;
     NSString *emailCallbackId;
