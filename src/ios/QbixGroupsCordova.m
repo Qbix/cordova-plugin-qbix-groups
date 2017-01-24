@@ -231,6 +231,88 @@
     [self sendSuccessWithCallbackId:command.callbackId];
 }
 
+-(void) getNativeTemplates:(CDVInvokedUrlCommand *)command {
+    [[Recents instance] load];
+    
+    NSMutableArray *resultArray = [NSMutableArray array];
+    
+    for(int i=0; i < [[Recents instance] numberOfItems]; i++ ) {
+        NSArray *item = [[Recents instance] itemAtIndex:i];
+        
+        NSString *text = [item objectAtIndex:0];
+        NSString *date = [item objectAtIndex:1];
+        
+        NSDictionary *itemDict = [NSDictionary dictionaryWithObjectsAndKeys:text, @"text", date, @"date", nil];
+        
+        [resultArray addObject:itemDict];
+    }
+    
+    CDVPluginResult* result = [CDVPluginResult
+                               resultWithStatus:CDVCommandStatus_OK messageAsArray:resultArray];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
+-(void) getSupportLanguages:(CDVInvokedUrlCommand *)command {
+    NSArray *supportedLanguages = [[LocalizationSystem sharedLocalSystem] getSupportLanguages];
+    
+    NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+    for(int i=0; i < [supportedLanguages count]; i++) {
+        LanguageModelItem *item = [supportedLanguages objectAtIndex:i];
+        
+        [resultDict setObject:[item languageFullName] forKey:[item languageShortName]];
+    }
+    
+    CDVPluginResult* result = [CDVPluginResult
+                               resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
+-(void) getCurrentLanguage: (CDVInvokedUrlCommand *)command {
+    NSString *appLanguage = [[LocalizationSystem sharedLocalSystem] getLanguage];
+    NSString *systemLanguage = [[LocalizationSystem sharedLocalSystem] getSystemLanguage];
+    
+    NSDictionary *resultDict = [NSDictionary dictionaryWithObjectsAndKeys:appLanguage, APP_LANGUAGE, systemLanguage, SYSTEM_LANGUAGE, nil];
+
+    CDVPluginResult* result = [CDVPluginResult
+                               resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
+-(void) chooseTemplate:(CDVInvokedUrlCommand *)command {
+    NSString *typeString = [[command arguments] objectAtIndex:0];
+    NSDictionary *resultDict = nil;
+    
+    if(typeString == nil) {
+        return [self sendError:@"null parameters" withCallbackId:command.callbackId];
+    }
+    
+    if([typeString isEqualToString:@"email"]) {
+        NSString *subject = [[command arguments] objectAtIndex:1];
+        NSString *body = [[command arguments] objectAtIndex:2];
+        NSString *templateName = [[command arguments] objectAtIndex:3];
+        EmailTemplateModel *model = [[EmailTemplateModel alloc] init];
+        [model setTemplateName:templateName];
+        [model setSubject:subject];
+        [model setBody:body];
+        
+        resultDict = [NSDictionary dictionaryWithObjectsAndKeys:model, TEMPLATE_DATA, nil];
+    } else {
+        NSString *text = [[command arguments] objectAtIndex:1];
+        NSString *image = [[command arguments] objectAtIndex:2];
+        NSString *templateName = [[command arguments] objectAtIndex:3];
+        SmsTemplateModel *model = [[SmsTemplateModel alloc] init];
+        [model setTemplateName:templateName];
+        [model setImage:image];
+        [model setText:text];
+        
+        resultDict = [NSDictionary dictionaryWithObjectsAndKeys:model, TEMPLATE_DATA, nil];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"chooseTemplate" object:resultDict];
+    
+    [self sendSuccessWithCallbackId:command.callbackId];
+}
+
 
 
 @end

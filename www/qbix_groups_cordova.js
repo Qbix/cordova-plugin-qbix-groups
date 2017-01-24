@@ -69,7 +69,33 @@ var Main = {
     // },
     closeModalWebView: function (onSuccess, onError) {
         cordova.exec(onSuccess, onError, BRIDGE_NAME, "closeModalWebView", []);
+    },
+    getNativeTemplates: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "getNativeTemplates", []);
+    },
+    getSupportLanguages: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "getSupportLanguages", []);
+    },
+    getCurrentLanguage: function (onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "getCurrentLanguage", []);
+    },
+    chooseTemplate: function (data, onSuccess, onError) {
+        var parameters = [];
+        if(data.sms != null) {
+            var text = data.sms.text;
+            var image = data.sms.image
+            var templateName = data.sms.templateName;
+            parameters = ["sms", text, image, templateName];
+        } else if(data.email != null) {
+            var subject = data.email.subject;
+            var body = data.email.body
+            var templateName = data.email.templateName;
+            parameters = ["email", subject, body, templateName];
+        }
+        
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "chooseTemplate", parameters);
     }
+
 }
 
 

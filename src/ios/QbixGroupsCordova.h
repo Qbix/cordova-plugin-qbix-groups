@@ -24,4 +24,9 @@
 -(void) showError:(NSString*) error;
 - (void) getEmailInfo:(CDVInvokedUrlCommand *)command;
 
+-(void) getNativeTemplates:(CDVInvokedUrlCommand *)command;
+-(void) getSupportLanguages:(CDVInvokedUrlCommand *)command;
+-(void) getCurrentLanguage: (CDVInvokedUrlCommand *)command;
+-(void) chooseTemplate:(CDVInvokedUrlCommand *)command;
+
 @end
