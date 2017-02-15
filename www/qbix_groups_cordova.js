@@ -94,6 +94,9 @@ var Main = {
         }
         
         cordova.exec(onSuccess, onError, BRIDGE_NAME, "chooseTemplate", parameters);
+    },
+    send: function(src, state, onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "send", [src, state]);
     }
 
 }

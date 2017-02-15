@@ -1,5 +1,6 @@
 #import "QbixGroupsCordova.h"
 #import "TrackingEmailStorage.h"
+#import "BatchSenderEmailSms.h"
 
 #define APP_LANGUAGE @"currentAppLanguage"
 #define SYSTEM_LANGUAGE @"currentSystemLanguage"
@@ -324,6 +325,18 @@
     [self sendSuccessWithCallbackId:command.callbackId];
 }
 
-
+-(void) send:(CDVInvokedUrlCommand *)command {
+    NSString *callbackId = command.callbackId;
+    NSString *src = [[command arguments] objectAtIndex:0];
+    NSString *state = [[command arguments] objectAtIndex:1];
+    
+    [[ApiController controller] loadBatchesEmailSMS:src callback:^(NSArray<BatchEmailSMS *> *tasks) {
+        // run each task in json
+        BatchSenderEmailSms *batchSenderEmailSms = [[BatchSenderEmailSms alloc] init:src andState:state];
+        [batchSenderEmailSms sentBatches:tasks callback:^{
+            [self sendSuccessWithCallbackId:callbackId];
+        }];
+    }];    
+}
 
 @end
