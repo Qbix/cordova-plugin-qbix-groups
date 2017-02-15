@@ -245,13 +245,15 @@
         NSArray *item = [[Recents instance] itemAtIndex:i];
         
         NSString *text = [item objectAtIndex:0];
-        NSString *date = [item objectAtIndex:1];
+        NSDate *date = [item objectAtIndex:1];
         NSString *imageLink = nil;
         if([item count] > 2) {
             imageLink = [item objectAtIndex:2];
         }
         
-        NSMutableDictionary *itemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:text, @"text", date, @"date", nil];
+        NSString *timeString = [date description];
+        
+        NSMutableDictionary *itemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:text, @"text", timeString, @"date", nil];
         if(imageLink != nil) {
             [itemDict setObject:imageLink forKey:@"imageLink"];
         }
