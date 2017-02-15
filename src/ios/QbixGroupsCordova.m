@@ -245,10 +245,17 @@
         
         NSString *text = [item objectAtIndex:0];
         NSString *date = [item objectAtIndex:1];
+        NSString *imageLink = nil;
+        if([item count] > 2) {
+            imageLink = [item objectAtIndex:2];
+        }
         
-        NSDictionary *itemDict = [NSDictionary dictionaryWithObjectsAndKeys:text, @"text", date, @"date", nil];
+        NSMutableDictionary *itemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:text, @"text", date, @"date", nil];
+        if(imageLink != nil) {
+            [itemDict setObject:imageLink forKey:@"imageLink"];
+        }
         
-        [resultArray addObject:itemDict];
+        [resultArray addObject:[itemDict mutableCopy]];
     }
     
     CDVPluginResult* result = [CDVPluginResult
