@@ -251,6 +251,11 @@
             imageLink = [item objectAtIndex:2];
         }
         
+        NSString *templateName = nil;
+        if([item count] > 3) {
+            templateName = [item objectAtIndex:3];
+        }
+        
         NSString *timeString = @"";
         if([date isKindOfClass:[NSDate class]]) {
             timeString = [date description];
@@ -261,6 +266,9 @@
         NSMutableDictionary *itemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:text, @"text", timeString, @"date", nil];
         if(imageLink != nil) {
             [itemDict setObject:imageLink forKey:@"imageLink"];
+        }
+        if(templateName != nil) {
+            [itemDict setObject:templateName forKey:@"templateName"];
         }
         
         [resultArray addObject:[itemDict mutableCopy]];
