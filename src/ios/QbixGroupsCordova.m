@@ -1,10 +1,12 @@
 #import "QbixGroupsCordova.h"
 #import "TrackingEmailStorage.h"
 #import "BatchSenderEmailSms.h"
+#import "LocationModel.h"
 
 #define APP_LANGUAGE @"currentAppLanguage"
 #define SYSTEM_LANGUAGE @"currentSystemLanguage"
 #define TEMPLATE_DATA @"templateData"
+#define LOCATION_DATA @"locationData"
 
 @implementation QbixGroupsCordova {
     NSString *smsCallbackId;
@@ -336,6 +338,23 @@
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"chooseTemplate" object:resultDict];
+    
+    [self sendSuccessWithCallbackId:command.callbackId];
+}
+
+-(void) chooseLocation:(CDVInvokedUrlCommand *)command {
+    NSString *locationUrl = [[command arguments] objectAtIndex:0];
+    
+    if(locationUrl == nil) {
+        return [self sendError:@"null parameters" withCallbackId:command.callbackId];
+    }
+    
+    LocationModel *model = [[LocationModel alloc] init];
+    [model setLocationUrl:locationUrl];
+    
+    NSDictionary *resultDict = [NSDictionary dictionaryWithObjectsAndKeys:model, LOCATION_DATA, nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"chooseLocation" object:resultDict];
     
     [self sendSuccessWithCallbackId:command.callbackId];
 }

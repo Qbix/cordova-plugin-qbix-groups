@@ -28,5 +28,6 @@
 -(void) getSupportLanguages:(CDVInvokedUrlCommand *)command;
 -(void) getCurrentLanguage: (CDVInvokedUrlCommand *)command;
 -(void) chooseTemplate:(CDVInvokedUrlCommand *)command;
+-(void) chooseLocation:(CDVInvokedUrlCommand *)command;
 
 @end
