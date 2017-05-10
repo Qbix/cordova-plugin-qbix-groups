@@ -343,14 +343,16 @@
 }
 
 -(void) chooseLocation:(CDVInvokedUrlCommand *)command {
-    NSString *locationUrl = [[command arguments] objectAtIndex:0];
+    NSDictionary *data = [[command arguments] objectAtIndex:0];
     
-    if(locationUrl == nil) {
+    if(data == nil) {
         return [self sendError:@"null parameters" withCallbackId:command.callbackId];
     }
     
     LocationModel *model = [[LocationModel alloc] init];
-    [model setLocationUrl:locationUrl];
+    [model setLocationUrl:[data objectForKey:@"locationUrl"]];
+    [model setMapSrc:[data objectForKey:@"mapSrc"]];
+    [model setStreetviewSrc:[data objectForKey:@"streetviewSrc"]];
     
     NSDictionary *resultDict = [NSDictionary dictionaryWithObjectsAndKeys:model, LOCATION_DATA, nil];
     
