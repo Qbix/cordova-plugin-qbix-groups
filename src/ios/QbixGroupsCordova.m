@@ -112,18 +112,54 @@
     NSString* body = [[command arguments] objectAtIndex:1];
     NSString* imageUrl = [[command arguments] objectAtIndex:2];
 
-    SmsOperationController *smsOperationController = [[SmsOperationController alloc] init];
-    if(![smsOperationController isAvailable]) {
+    if(![SMSService isAvailable]) {
         [self sendError:@"Device not configured to sent sms" withCallbackId:command.callbackId];
         return;
     }
-    [smsOperationController setDelegateCordova:self];
-    [smsOperationController setRecipientsAsPhoneArray:recipients];
-    [smsOperationController setText:body];
-    [smsOperationController setImageUrl:imageUrl];
-    [smsOperationController setBatch:[recipients count]];
-    [smsOperationController setIsDirect:YES];
-    [smsOperationController showComposeSmsController];
+    
+    if([SMSService isEnableFeature:recipients] || [SMSService isFreeSMS]) {
+        [[ApiController controller] loadImageFromUrl:imageUrl withCallback:^(UIImage *image) {
+            SMSSenderClient *client = [SMSSenderClient clientWithBlock:^(SMSSenderClientBuilder *builder) {
+                builder.body = body;
+                builder.recipients = recipients;
+                builder.attachment = image;
+            }];
+            
+            [client send:self.viewController andDelegate:self];
+        }];
+        
+    } else {
+        [self sendError:@"No free sms to sent" withCallbackId:command.callbackId];
+    }
+    
+//    SmsOperationController *smsOperationController = [[SmsOperationController alloc] init];
+//    if(![smsOperationController isAvailable]) {
+//        [self sendError:@"Device not configured to sent sms" withCallbackId:command.callbackId];
+//        return;
+//    }
+//    [smsOperationController setDelegateCordova:self];
+//    [smsOperationController setRecipientsAsPhoneArray:recipients];
+//    [smsOperationController setText:body];
+//    [smsOperationController setImageUrl:imageUrl];
+//    [smsOperationController setBatch:[recipients count]];
+//    [smsOperationController setIsDirect:YES];
+//    [smsOperationController showComposeSmsController];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    switch (result) {
+        case MessageComposeResultSent:
+            [self sendSuccessWithCallbackId:smsCallbackId];
+            break;
+        case MessageComposeResultFailed:
+            [self sendError:@"Error" withCallbackId:smsCallbackId];
+            break;
+        case MessageComposeResultCancelled:
+            [self sendError:@"User cancel" withCallbackId:smsCallbackId];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void) sendEmail:(CDVInvokedUrlCommand*)command {
@@ -369,7 +405,7 @@
     [[ApiController controller] loadBatchesEmailSMS:src callback:^(NSArray<BatchEmailSMS *> *tasks) {
         // run each task in json
         BatchSenderEmailSms *batchSenderEmailSms = [[BatchSenderEmailSms alloc] init:src andState:state];
-        [batchSenderEmailSms sentBatches:tasks callback:^{
+        [batchSenderEmailSms sentBatches:tasks fromController:self.viewController callback:^{
             [self sendSuccessWithCallbackId:callbackId];
         }];
     }];    
