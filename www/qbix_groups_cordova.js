@@ -96,8 +96,7 @@ var Main = {
         cordova.exec(onSuccess, onError, BRIDGE_NAME, "chooseTemplate", parameters);
     },
     chooseLocation: function (data, onSuccess, onError) {
-        var locationUrl = data.locationUrl;
-        cordova.exec(onSuccess, onError, BRIDGE_NAME, "chooseLocation", [locationUrl]);
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "chooseLocation", [data]);
     },
     send: function(src, state, onSuccess, onError) {
         cordova.exec(onSuccess, onError, BRIDGE_NAME, "send", [src, state]);
