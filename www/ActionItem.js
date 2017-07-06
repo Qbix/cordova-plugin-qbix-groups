@@ -12,12 +12,13 @@ var GROUPS_ACTIONS = {
     DELETE_CONTACTS_FROM_GROUP: 10
 }
 
-var ActionItem = function(title, icon, action, isNew, url) {
+var ActionItem = function(title, icon, action, isNew, url, requires) {
 	this.title = title;
 	this.icon = icon;
 	this.action = action;
 	this.isNew = isNew;
 	this.url = url;
+	this.requires = requires || [];
 }
 
 module.exports = ActionItem;
