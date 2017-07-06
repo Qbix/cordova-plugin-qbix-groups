@@ -100,6 +100,9 @@ var Main = {
     },
     send: function(src, state, onSuccess, onError) {
         cordova.exec(onSuccess, onError, BRIDGE_NAME, "send", [src, state]);
+    },
+    selectedIdentifiers: function(onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "selectedIdentifiers", []);
     }
 
 }
