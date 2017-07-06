@@ -2,11 +2,14 @@
 #import "TrackingEmailStorage.h"
 #import "BatchSenderEmailSms.h"
 #import "LocationModel.h"
+#import "ContactsService.h"
 
 #define APP_LANGUAGE @"currentAppLanguage"
 #define SYSTEM_LANGUAGE @"currentSystemLanguage"
 #define TEMPLATE_DATA @"templateData"
 #define LOCATION_DATA @"locationData"
+
+
 
 @implementation QbixGroupsCordova {
     NSString *smsCallbackId;
@@ -409,6 +412,26 @@
             [self sendSuccessWithCallbackId:callbackId];
         }];
     }];    
+}
+
+- (void) selectedIdentifiers:(CDVInvokedUrlCommand *)command {
+    NSArray<QContact*> *selectedContacts = [ContactsService lastSelectedContacts];
+    
+    if(selectedContacts == nil) {
+        [self sendError:@"No selected Identifiers" withCallbackId:command.callbackId];
+        return;
+    }
+    
+    NSMutableDictionary *selectedIdentifiers = [NSMutableDictionary dictionary];
+    for(QContact *contact in selectedContacts) {
+        [selectedIdentifiers setValue:[[contact selectedPhoneNumbers] arrayByAddingObjectsFromArray:[contact selectedEmails]] forKey:[NSString stringWithFormat:@"%ld", (long)[contact identifier]]];
+    }
+    
+    CDVPluginResult* result = [CDVPluginResult
+                               resultWithStatus:CDVCommandStatus_OK
+                               messageAsDictionary:[selectedIdentifiers copy]];
+
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 @end
