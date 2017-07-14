@@ -1,11 +1,13 @@
 #import <Cordova/CDV.h>
 
 #import "QbixGroupsCordovaDelegate.h"
-#import "EmailOperationController.h"
-#import "SmsOperationController.h"
 #import "SMSSenderClient.h"
+#import "Recents.h"
+#import "EmailTemplateModel.h"
+#import "SmsTemplateModel.h"
+#import "QbixGroupsRepository.h"
 
-@interface QbixGroupsCordova : CDVPlugin<QbixGroupsCordovaDelegate, MFMessageComposeViewControllerDelegate>
+@interface QbixGroupsCordova : CDVPlugin<QbixGroupsCordovaDelegate>
 
 - (void) hello:(CDVInvokedUrlCommand*)command;
 

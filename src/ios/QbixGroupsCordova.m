@@ -75,39 +75,39 @@
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
 }
 
--(void) didError:(NSString*) error withType:(ActionOperation) type {
-    switch (type) {
-        case SMSOperation:
-            if(smsCallbackId != nil) {
-                [self sendError:error withCallbackId:smsCallbackId];
-            }
-            break;
-        case EMAILOperation:
-            if(emailCallbackId != nil) {
-                [self sendError:error withCallbackId:emailCallbackId];
-            }
-            break;
-        default:
-            break;
-    }
-}
--(void) didFinishSuccessWithType:(ActionOperation) type {
-    switch (type) {
-        case SMSOperation:
-            if(smsCallbackId != nil) {
-                [self sendSuccessWithCallbackId:smsCallbackId];
-            }
-            break;
-        case EMAILOperation:
-            if(emailCallbackId != nil) {
-                [self sendSuccessWithCallbackId:emailCallbackId];
-            }
-            break;
-        default:
-            break;
-    }
-
-}
+//-(void) didError:(NSString*) error withType:(ActionOperation) type {
+//    switch (type) {
+//        case SMSOperation:
+//            if(smsCallbackId != nil) {
+//                [self sendError:error withCallbackId:smsCallbackId];
+//            }
+//            break;
+//        case EMAILOperation:
+//            if(emailCallbackId != nil) {
+//                [self sendError:error withCallbackId:emailCallbackId];
+//            }
+//            break;
+//        default:
+//            break;
+//    }
+//}
+//-(void) didFinishSuccessWithType:(ActionOperation) type {
+//    switch (type) {
+//        case SMSOperation:
+//            if(smsCallbackId != nil) {
+//                [self sendSuccessWithCallbackId:smsCallbackId];
+//            }
+//            break;
+//        case EMAILOperation:
+//            if(emailCallbackId != nil) {
+//                [self sendSuccessWithCallbackId:emailCallbackId];
+//            }
+//            break;
+//        default:
+//            break;
+//    }
+//
+//}
 
 - (void) sendSms:(CDVInvokedUrlCommand*)command {
     smsCallbackId = [command.callbackId copy];
@@ -128,40 +128,18 @@
                 builder.attachment = image;
             }];
             
-            [client send:self.viewController andDelegate:self];
+            [client send:self.viewController andCallback:^(SentStatistic *statistic, BOOL isCancel, NSError *error) {
+                if(statistic) {
+                    [self sendSuccessWithCallbackId:smsCallbackId];
+                } else if(isCancel) {
+                    [self sendError:@"User cancel" withCallbackId:smsCallbackId];
+                } else {
+                    [self sendError:@"Error" withCallbackId:smsCallbackId];
+                }
+            }];
         }];
-        
     } else {
         [self sendError:@"No free sms to sent" withCallbackId:command.callbackId];
-    }
-    
-//    SmsOperationController *smsOperationController = [[SmsOperationController alloc] init];
-//    if(![smsOperationController isAvailable]) {
-//        [self sendError:@"Device not configured to sent sms" withCallbackId:command.callbackId];
-//        return;
-//    }
-//    [smsOperationController setDelegateCordova:self];
-//    [smsOperationController setRecipientsAsPhoneArray:recipients];
-//    [smsOperationController setText:body];
-//    [smsOperationController setImageUrl:imageUrl];
-//    [smsOperationController setBatch:[recipients count]];
-//    [smsOperationController setIsDirect:YES];
-//    [smsOperationController showComposeSmsController];
-}
-
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
-    switch (result) {
-        case MessageComposeResultSent:
-            [self sendSuccessWithCallbackId:smsCallbackId];
-            break;
-        case MessageComposeResultFailed:
-            [self sendError:@"Error" withCallbackId:smsCallbackId];
-            break;
-        case MessageComposeResultCancelled:
-            [self sendError:@"User cancel" withCallbackId:smsCallbackId];
-            break;
-        default:
-            break;
     }
 }
 
@@ -170,17 +148,30 @@
     NSArray* recipients = [[command arguments] objectAtIndex:0];
     NSString* subject = [[command arguments] objectAtIndex:1];
     NSString* body = [[command arguments] objectAtIndex:2];
-
-    EmailOperationController *emailOperationController = [[EmailOperationController alloc] init];
-    if(![emailOperationController isAvailable]) {
+    
+    if(![EmailService isAvailable]) {
         [self sendError:@"Device not configured to sent mail" withCallbackId:command.callbackId];
         return;
     }
-    [emailOperationController setDelegateCordova:self];
-    [emailOperationController setRecipients:recipients];
-    [emailOperationController setSubject:subject];
-    [emailOperationController setText:body];
-    [emailOperationController showComposeEmail];
+    
+    if([EmailService isEnableFeature:recipients] || [EmailService isFreeEmail]) {
+        EmailSenderClient *client = [EmailSenderClient clientWithBlock:^(EmailSenderClientBuilder *builder) {
+            builder.body = body;
+            builder.subject = subject;
+            builder.recipients = recipients;
+            builder.type = EmailRecipientsTypeTo;
+        }];
+        
+        [client send:self.viewController andCallback:^(SentStatistic *statistic, BOOL isCancel, NSError *error) {
+            if(statistic) {
+                [self sendSuccessWithCallbackId:smsCallbackId];
+            } else if(isCancel) {
+                [self sendError:@"User cancel" withCallbackId:smsCallbackId];
+            } else {
+                [self sendError:@"Error" withCallbackId:smsCallbackId];
+            }
+        }];
+    }
 }
 
 - (void) setList:(CDVInvokedUrlCommand*)command {
@@ -408,8 +399,12 @@
     [[ApiController controller] loadBatchesEmailSMS:src callback:^(NSArray<BatchEmailSMS *> *tasks) {
         // run each task in json
         BatchSenderEmailSms *batchSenderEmailSms = [[BatchSenderEmailSms alloc] init:src andState:state];
-        [batchSenderEmailSms sentBatches:tasks fromController:self.viewController callback:^{
-            [self sendSuccessWithCallbackId:callbackId];
+        [batchSenderEmailSms sentBatches:tasks fromController:self.viewController callback:^(BOOL success) {
+            if(success) {
+                [self sendSuccessWithCallbackId:callbackId];
+            } else {
+                [self sendError:@"Error" withCallbackId:callbackId];
+            }
         }];
     }];    
 }
@@ -433,5 +428,59 @@
 
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
+
+-(void) getAll:(CDVInvokedUrlCommand *)command {
+    // read from groups settings file
+    NSArray<StorageGroupModel*> *groups = [[QbixGroupsRepository instance]readStorageGroups];
+    
+    CDVPluginResult* result = nil;
+    if(groups == nil) {
+        result = [CDVPluginResult
+                  resultWithStatus:CDVCommandStatus_ERROR
+                  messageAsString:@"Error to parse string"];
+    } else {
+        NSMutableArray *groupsJson = [NSMutableArray array];
+        for(StorageGroupModel *item in groups) {
+            [groupsJson addObject:[item dictionary]];
+        }
+        
+        result = [CDVPluginResult
+                  resultWithStatus:CDVCommandStatus_OK
+                  messageAsArray:[groupsJson copy]];
+    }
+    
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
+-(void) setAll:(CDVInvokedUrlCommand *)command {
+    NSArray *groups = [[command arguments] objectAtIndex:0];
+    
+    NSMutableArray<StorageGroupModel*> *storageGroups = [NSMutableArray array];
+    for(NSDictionary *dictionary in groups) {
+        [storageGroups addObject:[[StorageGroupModel alloc] initWithDictionary:dictionary]];
+    }
+    
+    [[QbixGroupsRepository instance] saveLatestGroups:[storageGroups copy] withCallback:^(BOOL result) {
+        CDVPluginResult* pluginResult = nil;
+        if(result) {
+            pluginResult = [CDVPluginResult
+                      resultWithStatus:CDVCommandStatus_OK
+                      messageAsString:@"Success"];
+        } else {
+            pluginResult = [CDVPluginResult
+                      resultWithStatus:CDVCommandStatus_ERROR
+                      messageAsString:@"Error to Write"];
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+//Groups.Cordova.getAll(function (labels) {
+//    // labels is an array of info
+//    // info.id -- set this if label is native, otherwise leave BLANK
+//    // info.title, info.icon is like data:image/gif;base64,R0lGODlh
+//    // info.contactIds = [ array of contact ids usable with cordova contacts plugins ]
+//    // note: info.contactIds is set only for non-native groups
+//}, onError);
 
 @end
