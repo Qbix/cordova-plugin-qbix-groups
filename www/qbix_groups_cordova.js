@@ -103,6 +103,12 @@ var Main = {
     },
     selectedIdentifiers: function(onSuccess, onError) {
         cordova.exec(onSuccess, onError, BRIDGE_NAME, "selectedIdentifiers", []);
+    },
+    getAll: function(onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "getAll", []);
+    },
+    setAll: function(labels, onSuccess, onError) {
+        cordova.exec(onSuccess, onError, BRIDGE_NAME, "setAll", [labels]);
     }
 
 }
