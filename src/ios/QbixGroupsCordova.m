@@ -429,4 +429,58 @@
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
+-(void) getAll:(CDVInvokedUrlCommand *)command {
+    // read from groups settings file
+    NSArray<StorageGroupModel*> *groups = [[QbixGroupsRepository instance]readStorageGroups];
+    
+    CDVPluginResult* result = nil;
+    if(groups == nil) {
+        result = [CDVPluginResult
+                  resultWithStatus:CDVCommandStatus_ERROR
+                  messageAsString:@"Error to parse string"];
+    } else {
+        NSMutableArray *groupsJson = [NSMutableArray array];
+        for(StorageGroupModel *item in groups) {
+            [groupsJson addObject:[item dictionary]];
+        }
+        
+        result = [CDVPluginResult
+                  resultWithStatus:CDVCommandStatus_OK
+                  messageAsArray:[groupsJson copy]];
+    }
+    
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
+-(void) setAll:(CDVInvokedUrlCommand *)command {
+    NSArray *groups = [[command arguments] objectAtIndex:0];
+    
+    NSMutableArray<StorageGroupModel*> *storageGroups = [NSMutableArray array];
+    for(NSDictionary *dictionary in groups) {
+        [storageGroups addObject:[[StorageGroupModel alloc] initWithDictionary:dictionary]];
+    }
+    
+    [[QbixGroupsRepository instance] saveLatestGroups:[storageGroups copy] withCallback:^(BOOL result) {
+        CDVPluginResult* pluginResult = nil;
+        if(result) {
+            pluginResult = [CDVPluginResult
+                      resultWithStatus:CDVCommandStatus_OK
+                      messageAsString:@"Success"];
+        } else {
+            pluginResult = [CDVPluginResult
+                      resultWithStatus:CDVCommandStatus_ERROR
+                      messageAsString:@"Error to Write"];
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+//Groups.Cordova.getAll(function (labels) {
+//    // labels is an array of info
+//    // info.id -- set this if label is native, otherwise leave BLANK
+//    // info.title, info.icon is like data:image/gif;base64,R0lGODlh
+//    // info.contactIds = [ array of contact ids usable with cordova contacts plugins ]
+//    // note: info.contactIds is set only for non-native groups
+//}, onError);
+
 @end

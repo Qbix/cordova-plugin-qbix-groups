@@ -5,6 +5,7 @@
 #import "Recents.h"
 #import "EmailTemplateModel.h"
 #import "SmsTemplateModel.h"
+#import "QbixGroupsRepository.h"
 
 @interface QbixGroupsCordova : CDVPlugin<QbixGroupsCordovaDelegate>
 
