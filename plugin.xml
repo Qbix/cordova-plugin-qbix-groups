@@ -52,6 +52,13 @@
     <source-file src="src/ios/QbixGroupsCordova.m" target-dir="QbixGroupsCordovaPlugin"/>
     <header-file src="src/ios/QbixGroupsCordovaDelegate.h" target-dir="QbixGroupsCordovaPlugin"/>
 
+    <header-file src="src/ios/QbixGroupsGroupsConvertor.h" target-dir="QbixGroupsCordovaPlugin"/>
+    <source-file src="src/ios/QbixGroupsGroupsConvertor.m" target-dir="QbixGroupsCordovaPlugin"/>
+    <header-file src="src/ios/QbixGroupsRepository.h" target-dir="QbixGroupsCordovaPlugin"/>
+    <source-file src="src/ios/QbixGroupsRepository.m" target-dir="QbixGroupsCordovaPlugin"/>
+    <header-file src="src/ios/StorageGroupModel.h" target-dir="QbixGroupsCordovaPlugin"/>
+    <source-file src="src/ios/StorageGroupModel.m" target-dir="QbixGroupsCordovaPlugin"/>
+
   </platform>
 
 </plugin>
