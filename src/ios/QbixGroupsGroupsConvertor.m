@@ -49,10 +49,10 @@
     
     for (ABGroup *group in groups) {
         StorageGroupModel *groupModel = [[StorageGroupModel alloc] init];
-        
-        [groupModel setIdentifier:@(-1)];
+    
+        [groupModel setIdentifier:@"-1"];
         if(![group isExternal]) {
-            [groupModel setIdentifier:@([group recordId])];
+            [groupModel setIdentifier:[@([group recordId]) stringValue]];
             [groupModel setContactIds:@[]];
         } else {
             NSMutableArray *contactIds = [NSMutableArray array];
@@ -66,6 +66,25 @@
         
         
         [groupModel setIcon:[[TEMPServiceLocator generateIconsGroupsService] imageForType:group.storedGroup.imageType value:group.storedGroup.imageValue groupID:group.recordId]];
+        
+        [groupModel setSortMethod:StorageSortMethodDefault];
+        SortMethod sortMethod = group.storedGroup.sortMethod;
+        switch (sortMethod) {
+            case SortMethodByFirst:
+                [groupModel setSortMethod:StorageSortMethodByFirst];
+                break;
+            case SortMethodByLast:
+                [groupModel setSortMethod:StorageSortMethodByLast];
+                break;
+            case SortMethodByCompany:
+                [groupModel setSortMethod:StorageSortMethodByCompany];
+                break;
+            case SortMethodByRecentAdd:
+                [groupModel setSortMethod:StorageSortMethodByRecentAdd];
+                break;
+            default:
+                break;
+        }
         
         [convertedGroups addObject:groupModel];
     }

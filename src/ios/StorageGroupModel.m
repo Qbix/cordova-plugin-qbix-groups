@@ -12,6 +12,7 @@
 #define TITLE @"title"
 #define ICON @"icon"
 #define CONTACTIDS @"contactIds"
+#define SORTMETHOD @"sortMethod"
 
 @implementation StorageGroupModel
 
@@ -28,6 +29,7 @@
             [self setIcon:nil];
         }
         [self setContactIds:[dict objectForKey:CONTACTIDS]];
+        [self setSortMethod:[[dict objectForKey:SORTMETHOD] integerValue]];
     }
     
     return self;
@@ -37,7 +39,8 @@
     return @{ID:_identifier,
              TITLE:_title,
              ICON:_icon ? [_icon base64] : @"",
-             CONTACTIDS:_contactIds};
+             CONTACTIDS:_contactIds,
+             SORTMETHOD: [NSNumber numberWithInteger:_sortMethod]};
 }
 
 @end
