@@ -46,10 +46,10 @@
 }
 
 -(void) saveLatestGroups:(NSArray<StorageGroupModel*> *) savedGroups withCallback:(void (^)(BOOL)) callabck {
-    NSOperation *operation = [[NSOperation alloc] init];
-    [operation setQueuePriority:NSOperationQueuePriorityHigh];
-    [operation setQualityOfService:NSQualityOfServiceBackground];
-    [operation setCompletionBlock:^{
+//    NSOperation *operation = [[NSOperation alloc] init];
+//    [operation setQueuePriority:NSOperationQueuePriorityHigh];
+//    [operation setQualityOfService:NSQualityOfServiceBackground];
+//    [operation setCompletionBlock:^{
         NSMutableArray *jsonArray = [NSMutableArray array];
         for(StorageGroupModel* model in savedGroups) {
             [jsonArray addObject:[model dictionary]];
@@ -70,10 +70,11 @@
         if(callabck != nil) {
             callabck(YES);
         }
-    }];
+//    }];
     
-    [_operationQueue addOperation:operation];
-    [_operationQueue waitUntilAllOperationsAreFinished];
+//    [_operationQueue addOperation:operation];
+//    [_operationQueue ]
+//    [_operationQueue waitUntilAllOperationsAreFinished];
 }
 
 -(NSArray<StorageGroupModel*>*) readStorageGroups {
