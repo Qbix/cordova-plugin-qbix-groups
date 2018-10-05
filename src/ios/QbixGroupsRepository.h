@@ -11,6 +11,8 @@
 
 @interface QbixGroupsRepository : NSObject
 + (instancetype) instance;
++(NSURL*) getFilePath;
++(NSURL*) getTempFilePath;
 
 -(void) saveLatestGroups:(NSArray<StorageGroupModel*> *) savedGroups;
 -(NSArray<StorageGroupModel*>*) readStorageGroups;

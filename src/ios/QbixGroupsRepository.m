@@ -16,8 +16,19 @@
 
 @implementation QbixGroupsRepository
 
-+ (instancetype) instance
-{
++(NSURL*) getFilePath {
+    NSURL *directoryAppGroupPath = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:SHARE_APP_GROUP];
+    
+    return [directoryAppGroupPath URLByAppendingPathComponent:@"groups.json"];
+}
+
++(NSURL*) getTempFilePath {
+    NSURL *directoryAppGroupPath = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:SHARE_APP_GROUP];
+    
+    return [directoryAppGroupPath URLByAppendingPathComponent:@"tempgroups.json"];
+}
+
++ (instancetype) instance {
     static QbixGroupsRepository *inst = nil;
     if (!inst) {
         NSURL *directoryAppGroupPath = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:SHARE_APP_GROUP];
@@ -26,7 +37,7 @@
         
         //NSURL *cachePath = [[[NSFileManager defaultManager] URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
         
-        inst = [[self alloc] initWithFile:[directoryAppGroupPath URLByAppendingPathComponent:@"groups.json"] andTempFile:[directoryAppGroupPath URLByAppendingPathComponent:@"tempgroups.json"]];
+        inst = [[self alloc] initWithFile:[QbixGroupsRepository getFilePath] andTempFile:[QbixGroupsRepository getTempFilePath]];
     }
     return inst;
 }
