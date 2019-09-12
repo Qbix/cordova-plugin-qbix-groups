@@ -1,0 +1,36 @@
+{
+  "name": "cordova-plugin-qbix-groups",
+  "version": "0.1.0",
+  "description": "Cordova Plugin for Groups",
+  "cordova": {
+    "id": "com-qbix-groups-cordova",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Qbix/cordova-plugin-qbix-groups.git"
+  },
+  "keywords": [
+    "cordova",
+    "groups",
+    "qbix"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=6.4.0"
+    },
+    {
+      "name": "cordova-android",
+      "version": ">=4.0.0"
+    },
+    {
+      "name": "cordova-ios",
+      "version": ">=4.3.1"
+    }
+  ],
+  "author": "Qbix",
+  "license": "Apache-2.0"
+}
